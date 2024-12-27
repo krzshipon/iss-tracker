@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "153637931490",
+    "project_id": "iss-tracker-8201a",
+    "storage_bucket": "iss-tracker-8201a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153637931490:android:3178dfe02625878f7b11bb",
+        "android_client_info": {
+          "package_name": "com.krzshipon.iss_tracker_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj485okP_q9NSjtYOurJjkGPGWK-qlezI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
