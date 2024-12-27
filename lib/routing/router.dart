@@ -25,7 +25,7 @@ GoRouter setupAppRouter() => GoRouter(
         ),
         GoRoute(
           path: Routes.auth,
-          builder: (context, state) => const AuthView(),
+          builder: (context, state) => AuthView(),
         ),
       ],
     );
