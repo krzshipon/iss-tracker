@@ -1,77 +1,59 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:iss_tracker_app/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart'; // For Firebase integration
+import 'package:flutter/foundation.dart'; // For platform-specific functionality
+import 'package:flutter/material.dart'; // For Flutter UI components
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // For state management
+import 'package:flutter_web_plugins/url_strategy.dart'; // For web URL strategy
+import 'package:iss_tracker_app/config/firebase_options.dart'; // Firebase configuration
+import 'package:iss_tracker_app/provider/providers.dart'; // Application providers
+import 'package:iss_tracker_app/util/logger.dart'; // Custom logger utility
+import 'package:logging/logging.dart'; // For logging functionality
 
 void main() async {
+  // Ensure Flutter binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Use PathUrlStrategy for web to remove the '#' from URLs
+  if (kIsWeb) {
+    setUrlStrategy(const PathUrlStrategy());
+  }
+
+  // Set up a custom logger for debugging and monitoring
+  setupLogger();
+
+  // Initialize Firebase with platform-specific options
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  // Run the application wrapped in a ProviderScope for state management
+  runApp(
+    ProviderScope(
+      child: IssTrackerApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/// Main application widget
+class IssTrackerApp extends ConsumerWidget {
+  IssTrackerApp({super.key});
+  final _logger = Logger('IssTrackerApp');
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    _logger.info('Building the app...');
+
+    // Retrieve the app router from the provider
+    final appRouter = ref.watch(appRouterProvider);
+
+    return MaterialApp.router(
       title: 'ISS Tracker',
+      //TODO: Add a custom theme for the app
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        // Define a color scheme using a seed color
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        useMaterial3: true, // Enable Material 3 design
       ),
-      home: const MyHomePage(title: 'ISS Tracker Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      routerConfig: appRouter, // Use the app router
     );
   }
 }
