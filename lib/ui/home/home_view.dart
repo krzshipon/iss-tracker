@@ -271,8 +271,9 @@ class HomeView extends ConsumerWidget {
   Widget _buildInfoRow(String label, String value, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+        crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
         children: [
           Text(
             label,
@@ -282,12 +283,15 @@ class HomeView extends ConsumerWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          const SizedBox(height: 4), // Add spacing between title and value
           Text(
             value,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               fontSize: 16,
             ),
+            overflow: TextOverflow.ellipsis, // Truncate with ellipsis if needed
+            maxLines: 2, // Allow up to 2 lines for the value
           ),
         ],
       ),
