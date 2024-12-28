@@ -21,7 +21,7 @@ GoRouter setupAppRouter() => GoRouter(
       routes: [
         GoRoute(
           path: Routes.home,
-          builder: (context, state) => const HomeView(),
+          builder: (context, state) => HomeView(),
         ),
         GoRoute(
           path: Routes.auth,

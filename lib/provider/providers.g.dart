@@ -27,6 +27,22 @@ final appRouterProvider = AutoDisposeProvider<GoRouter>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AppRouterRef = AutoDisposeProviderRef<GoRouter>;
+String _$issApiClientHash() => r'60ab19ba908a893ad01e8386079a72dc2becd75d';
+
+/// See also [issApiClient].
+@ProviderFor(issApiClient)
+final issApiClientProvider = AutoDisposeProvider<ApiClient>.internal(
+  issApiClient,
+  name: r'issApiClientProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$issApiClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef IssApiClientRef = AutoDisposeProviderRef<ApiClient>;
 String _$authServiceHash() => r'82398d9f38c720e4ddf6b218248f15089fd4f178';
 
 /// See also [authService].
@@ -43,6 +59,23 @@ final authServiceProvider = AutoDisposeProvider<AuthService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthServiceRef = AutoDisposeProviderRef<AuthService>;
+String _$issInfoServiceHash() => r'0d0775dd59da02ac0da8f5bfab7b9f567e4f518e';
+
+/// See also [issInfoService].
+@ProviderFor(issInfoService)
+final issInfoServiceProvider = AutoDisposeProvider<ISSInfoService>.internal(
+  issInfoService,
+  name: r'issInfoServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$issInfoServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef IssInfoServiceRef = AutoDisposeProviderRef<ISSInfoService>;
 String _$authRepositoryHash() => r'597ef72f8036da0351d7aea699778b0dce81fb05';
 
 /// See also [authRepository].
@@ -60,5 +93,23 @@ final authRepositoryProvider = AutoDisposeProvider<AuthRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthRepositoryRef = AutoDisposeProviderRef<AuthRepository>;
+String _$issInfoRepositoryHash() => r'0db30a80b8cf02c9ec4aada37383c31ed0c5f823';
+
+/// See also [issInfoRepository].
+@ProviderFor(issInfoRepository)
+final issInfoRepositoryProvider =
+    AutoDisposeProvider<IssInfoRepository>.internal(
+  issInfoRepository,
+  name: r'issInfoRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$issInfoRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef IssInfoRepositoryRef = AutoDisposeProviderRef<IssInfoRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
