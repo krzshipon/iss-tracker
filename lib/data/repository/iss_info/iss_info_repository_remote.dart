@@ -24,18 +24,32 @@ class IssInfoRepositoryRemote extends IssInfoRepository {
       final lat = double.parse(issLocationRes.issPosition.latitude);
       final lon = double.parse(issLocationRes.issPosition.longitude);
 
-      final country =
+      final issCurrentCountry =
           await _ref.read(locationServiceProvider).getCountry(lat, lon);
+      _logger.info('Fetched ISS located country: $issCurrentCountry');
 
       // Convert API response to IssInfo model
       return IssInfo(
         latitude: lat,
         longitude: lon,
         timestamp: issLocationRes.timestamp,
-        country: country,
+        country: issCurrentCountry,
       );
     } catch (e, s) {
       _logger.severe('Failed to get ISS info!', e, s);
+      throw IssInfoException(e.toString());
+    }
+  }
+
+  @override
+  Future<String?> getUserCountry() async {
+    try {
+      final usersCountry =
+          await _ref.read(locationServiceProvider).getUserCountry();
+      _logger.info('Fetched user located country: $usersCountry');
+      return usersCountry;
+    } catch (e, s) {
+      _logger.severe('Failed to get user country: $e', e, s);
       throw IssInfoException(e.toString());
     }
   }

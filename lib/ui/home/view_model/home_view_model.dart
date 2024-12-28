@@ -7,6 +7,20 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_view_model.g.dart';
 
+sealed class HomeState {
+  final IssInfo? issInfo;
+  final bool isInUserCountry;
+  const HomeState({this.issInfo, this.isInUserCountry = false});
+}
+
+class HomeStateInitial extends HomeState {
+  const HomeStateInitial();
+}
+
+class HomeStateNewIssData extends HomeState {
+  const HomeStateNewIssData({required super.issInfo, super.isInUserCountry});
+}
+
 /// ViewModel for the Home screen
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
@@ -18,7 +32,7 @@ class HomeViewModel extends _$HomeViewModel {
   int get countdown => _countdown;
 
   @override
-  Future<IssInfo> build() async {
+  Future<HomeState> build() async {
     _logger.info('Initializing HomeViewModel');
 
     initialize();
@@ -30,14 +44,12 @@ class HomeViewModel extends _$HomeViewModel {
     });
 
     // Return a default IssInfo object if state.value is null
-    return state.value ??
-        const IssInfo(latitude: -1, longitude: -1, timestamp: 0);
+    return const HomeStateInitial();
   }
 
   /// Initializes the ViewModel by fetching data and starting the auto-refresh timer.
   Future<void> initialize() async {
     await fetchIssInfo();
-    _startAutoRefresh();
   }
 
   /// Starts a timer to auto-refresh the ISS data every minute.
@@ -66,11 +78,34 @@ class HomeViewModel extends _$HomeViewModel {
     try {
       final issInfo = await ref.read(issInfoRepositoryProvider).getIssInfo();
       _logger.info('Successfully fetched ISS info: $issInfo');
-      state = AsyncData(issInfo);
+      if (issInfo.country != null) {
+        _checkUserCountryWittIssLocation(issInfo.country!);
+      }
+      _startAutoRefresh();
+      state = AsyncData(HomeStateNewIssData(
+        issInfo: issInfo,
+      ));
       _resetCountdown();
     } catch (e, s) {
-      _logger.severe('Failed to fetch ISS info', e, s);
-      state = AsyncError(e, s);
+      _logger.severe('Failed to fetch ISS info $e', e, s);
+      state = AsyncError('Failed to obtain iss info!', s);
+    }
+  }
+
+  Future<void> _checkUserCountryWittIssLocation(String issCountry) async {
+    try {
+      final userCurrentCountry =
+          await ref.read(issInfoRepositoryProvider).getUserCountry();
+      _logger.info('User\'s current country: $userCurrentCountry');
+      final isIssInUserCountry = issCountry == userCurrentCountry;
+      if (state.value is HomeStateNewIssData) {
+        state = AsyncData(HomeStateNewIssData(
+          issInfo: state.value?.issInfo,
+          isInUserCountry: isIssInUserCountry,
+        ));
+      }
+    } catch (e) {
+      _logger.severe('Failed to check user\'s country $e');
     }
   }
 
