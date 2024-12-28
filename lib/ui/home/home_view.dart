@@ -230,7 +230,7 @@ class HomeView extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  'ISS is currently in your country!',
+                  'The Space Station is above your Country Now!!',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,
