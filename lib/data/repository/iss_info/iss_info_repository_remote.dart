@@ -1,7 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iss_tracker_app/data/exception/iss_info_exception.dart';
+import 'package:iss_tracker_app/data/service/iss_info_service.dart';
+import 'package:iss_tracker_app/data/service/location_service.dart';
 import 'package:iss_tracker_app/domain/model/home/iss_info.dart';
-import 'package:iss_tracker_app/provider/providers.dart';
 import 'package:logging/logging.dart';
 
 import 'iss_info_repository.dart';
@@ -9,23 +9,24 @@ import 'iss_info_repository.dart';
 /// Remote repository for fetching ISS location data.
 class IssInfoRepositoryRemote extends IssInfoRepository {
   final _logger = Logger('IssInfoRepositoryRemote');
-  final Ref _ref;
+  final ISSInfoService issInfoService;
+  final LocationService locationService;
 
-  IssInfoRepositoryRemote({required Ref ref}) : _ref = ref;
-
+  IssInfoRepositoryRemote({
+    required this.issInfoService,
+    required this.locationService,
+  });
   @override
   Future<IssInfo> getIssInfo() async {
     try {
       // Fetch ISS location data from the service
-      final issLocationRes =
-          await _ref.read(issInfoServiceProvider).fetchISSLocation();
+      final issLocationRes = await issInfoService.fetchISSLocation();
       _logger.info('Fetched ISS location info: $issLocationRes');
 
       final lat = double.parse(issLocationRes.issPosition.latitude);
       final lon = double.parse(issLocationRes.issPosition.longitude);
 
-      final issCurrentCountry =
-          await _ref.read(locationServiceProvider).getCountry(lat, lon);
+      final issCurrentCountry = await locationService.getCountry(lat, lon);
       _logger.info('Fetched ISS located country: $issCurrentCountry');
 
       // Convert API response to IssInfo model
@@ -44,8 +45,7 @@ class IssInfoRepositoryRemote extends IssInfoRepository {
   @override
   Future<String?> getUserCountry() async {
     try {
-      final usersCountry =
-          await _ref.read(locationServiceProvider).getUserCountry();
+      final usersCountry = await locationService.getUserCountry();
       _logger.info('Fetched user located country: $usersCountry');
       return usersCountry;
     } catch (e, s) {

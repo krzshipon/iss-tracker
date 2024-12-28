@@ -110,7 +110,7 @@ final authRepositoryProvider = AutoDisposeProvider<AuthRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthRepositoryRef = AutoDisposeProviderRef<AuthRepository>;
-String _$issInfoRepositoryHash() => r'0db30a80b8cf02c9ec4aada37383c31ed0c5f823';
+String _$issInfoRepositoryHash() => r'a438867c69a46b12c16fd5380b703984d42c89fb';
 
 /// See also [issInfoRepository].
 @ProviderFor(issInfoRepository)

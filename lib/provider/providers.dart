@@ -53,5 +53,8 @@ AuthRepository authRepository(Ref ref) {
 
 @riverpod
 IssInfoRepository issInfoRepository(Ref ref) {
-  return IssInfoRepositoryRemote(ref: ref);
+  final issInfoService = ref.watch(issInfoServiceProvider);
+  final locationService = ref.watch(locationServiceProvider);
+  return IssInfoRepositoryRemote(
+      issInfoService: issInfoService, locationService: locationService);
 }
