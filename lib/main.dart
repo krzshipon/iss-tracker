@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart'; // For platform-specific functionality
 import 'package:flutter/material.dart'; // For Flutter UI components
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // For state management
 import 'package:flutter_web_plugins/url_strategy.dart'; // For web URL strategy
+import 'package:iss_tracker_app/config/app_theme.dart';
 import 'package:iss_tracker_app/config/firebase_options.dart'; // Firebase configuration
 import 'package:iss_tracker_app/provider/providers.dart'; // Application providers
 import 'package:iss_tracker_app/util/logger.dart'; // Custom logger utility
@@ -47,12 +48,7 @@ class IssTrackerApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'ISS Tracker',
-      //TODO: Add a custom theme for the app
-      theme: ThemeData(
-        // Define a color scheme using a seed color
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        useMaterial3: true, // Enable Material 3 design
-      ),
+      theme: AppTheme.lightTheme,
       routerConfig: appRouter, // Use the app router
     );
   }
