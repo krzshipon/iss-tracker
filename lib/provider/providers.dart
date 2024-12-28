@@ -7,6 +7,7 @@ import 'package:iss_tracker_app/data/repository/iss_info/iss_info_repository_rem
 import 'package:iss_tracker_app/data/service/auth_service.dart';
 import 'package:iss_tracker_app/data/service/client/api_client.dart';
 import 'package:iss_tracker_app/data/service/iss_info_service.dart';
+import 'package:iss_tracker_app/data/service/location_service.dart';
 import 'package:iss_tracker_app/routing/router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -37,6 +38,11 @@ AuthService authService(Ref ref) {
 @riverpod
 ISSInfoService issInfoService(Ref ref) {
   return ISSInfoService(apiClient: ref.watch(issApiClientProvider));
+}
+
+@riverpod
+LocationService locationService(Ref ref) {
+  return LocationService();
 }
 
 //Repositories

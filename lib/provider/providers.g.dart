@@ -76,6 +76,23 @@ final issInfoServiceProvider = AutoDisposeProvider<ISSInfoService>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef IssInfoServiceRef = AutoDisposeProviderRef<ISSInfoService>;
+String _$locationServiceHash() => r'38d15292e1d1d4553c8f07a36b00411aa0a8d30e';
+
+/// See also [locationService].
+@ProviderFor(locationService)
+final locationServiceProvider = AutoDisposeProvider<LocationService>.internal(
+  locationService,
+  name: r'locationServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$locationServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef LocationServiceRef = AutoDisposeProviderRef<LocationService>;
 String _$authRepositoryHash() => r'597ef72f8036da0351d7aea699778b0dce81fb05';
 
 /// See also [authRepository].
