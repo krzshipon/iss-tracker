@@ -116,4 +116,18 @@ class HomeViewModel extends _$HomeViewModel {
     _countdown = 60;
     ref.notifyListeners(); // Notify listeners when the countdown is reset
   }
+
+  /// Signs out the user.
+  Future<bool> signOut() async {
+    _logger.info('Signing out user...');
+    try {
+      // Call the signOut method from the AuthViewModel
+      await ref.read(authRepositoryProvider).logout();
+      _logger.info('User signed out successfully.');
+      return true;
+    } catch (e) {
+      _logger.severe('Failed to sign out: $e');
+      return false;
+    }
+  }
 }

@@ -42,4 +42,4 @@ flutter:
 
   assets:
     - assets/anim/iss_animation.json
-  #   - images/a_dot_ham.jpeg
+    - assets/img/app_icon.jpg
