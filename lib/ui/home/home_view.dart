@@ -24,7 +24,9 @@ class HomeView extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Display ISS data if available and not in loading state
-            if (issInfo != null && !issState.isLoading) ...[
+            if (issInfo != null &&
+                !issState.isLoading &&
+                issInfo.latitude != -1) ...[
               Text('Latitude: ${issInfo.latitude}'),
               Text('Longitude: ${issInfo.longitude}'),
               Text('Last Updated (UTC): ${issInfo.utcTime}'),

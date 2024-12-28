@@ -21,11 +21,7 @@ class HomeViewModel extends _$HomeViewModel {
   Future<IssInfo> build() async {
     _logger.info('Initializing HomeViewModel');
 
-    // Fetch ISS data automatically when the view model is initialized
-    await fetchIssInfo();
-
-    // Start the auto-refresh timer
-    _startAutoRefresh();
+    initialize();
 
     // Clean up resources when the provider is disposed
     ref.onDispose(() {
@@ -36,6 +32,12 @@ class HomeViewModel extends _$HomeViewModel {
     // Return a default IssInfo object if state.value is null
     return state.value ??
         const IssInfo(latitude: -1, longitude: -1, timestamp: 0);
+  }
+
+  /// Initializes the ViewModel by fetching data and starting the auto-refresh timer.
+  Future<void> initialize() async {
+    await fetchIssInfo();
+    _startAutoRefresh();
   }
 
   /// Starts a timer to auto-refresh the ISS data every minute.
